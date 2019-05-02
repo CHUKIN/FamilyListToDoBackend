@@ -16,9 +16,23 @@
           <e p="ApiController.cs" t="Include" />
           <e p="HomeController.cs" t="Include" />
         </e>
+        <e p="Helpers" t="Include">
+          <e p="Constants.cs" t="Include" />
+        </e>
+        <e p="Migrations" t="Include">
+          <e p="20190502140217_Init.cs" t="Include" />
+          <e p="20190502140217_Init.Designer.cs" t="Include" />
+          <e p="20190502140318_Init2.cs" t="Include" />
+          <e p="20190502140318_Init2.Designer.cs" t="Include" />
+          <e p="20190502140431_Init3.cs" t="Include" />
+          <e p="20190502140431_Init3.Designer.cs" t="Include" />
+          <e p="FamilyContextModelSnapshot.cs" t="Include" />
+        </e>
         <e p="Models" t="Include">
           <e p="ErrorViewModel.cs" t="Include" />
+          <e p="FamilyContext.cs" t="Include" />
           <e p="Task.cs" t="Include" />
+          <e p="TaskStatus.cs" t="Include" />
           <e p="TaskType.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">

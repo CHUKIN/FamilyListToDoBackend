@@ -1,46 +1,62 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using App.Helpers;
 using App.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
+using Task = App.Models.Task;
+using TaskStatus = App.Models.TaskStatus;
 
 namespace App.Controllers
 {
     public class ApiController : Controller
     {
-        // GET
+        private FamilyContext db;
+        public ApiController(FamilyContext context)
+        {
+            db = context;
+        }
+        
+        [HttpGet]
         public IActionResult GetFamilyListToDo()
         {
-            var taskTypeTask = new TaskType
-            {
-                Id=1,
-                Text = "Задача"
+            var tasks = db.Tasks.Where(i => i.TaskStatus == TaskStatus.Open && (i.TaskType == TaskType.Purchases || i.TaskType == TaskType.Tasks));
+            var taskTypes = new []{
+                new {id = TaskType.Purchases, text = Constants.Purchases}, 
+                new {id = TaskType.Tasks, text = Constants.Tasks}
             };
-            var taskTypeShop = new TaskType
-            {
-                Id=0,
-                Text = "Покупка"
-            };
-
-            var shopTask = new Task
-            {
-                Id = 0,
-                Text = "Купить мясо",
-                TaskType = taskTypeShop
-            };
-            var taskTask = new Task
-            {
-                Id = 1,
-                Text = "Вкрутить лампочку",
-                TaskType = taskTypeTask
-            };
-            
             return Json(new
             {
-                FamilyListToDo = new{
-                    ShoppingList = new List<Task>{shopTask},
-                    ToDoList=new List<Task> { taskTask},
-                    TaskTypeList= new List<TaskType> { taskTypeShop, taskTypeTask}
-            }
+                shoppingList = tasks.Where(i=>i.TaskType == TaskType.Purchases),
+                toDoList = tasks.Where(i=>i.TaskType == TaskType.Tasks),
+                taskTypeList = taskTypes,
             });
+        }
+
+        [HttpPost]
+        public IActionResult CreateNewTask(Task newTask)
+        {
+            newTask.OpeningDate = DateTimeOffset.Now;
+            db.Tasks.Add(newTask);
+            db.SaveChanges();
+            return Json(newTask);
+        }
+        
+        [HttpPost]
+        public IActionResult CompleteTask(Task task)
+        {
+            var findedTask = db.Tasks.Find(task.Id);
+            if (findedTask != null)
+            {
+                findedTask.TaskStatus = TaskStatus.Complete;
+                findedTask.ClosingDate = DateTimeOffset.Now; 
+                db.SaveChanges();
+            }
+
+            return Json(task);
         }
     }
 }
