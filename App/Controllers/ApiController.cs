@@ -7,6 +7,7 @@ using App.Helpers;
 using App.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
+using Microsoft.EntityFrameworkCore;
 using Task = App.Models.Task;
 using TaskStatus = App.Models.TaskStatus;
 
@@ -29,7 +30,7 @@ namespace App.Controllers
                 new {id = TaskType.Tasks, text = Constants.Task}
             };
             return Json(new
-            {
+            {   
                 shoppingList = tasks.Where(i=>i.TaskType == TaskType.Purchases),
                 toDoList = tasks.Where(i=>i.TaskType == TaskType.Tasks),
                 taskTypeList = taskTypes,
