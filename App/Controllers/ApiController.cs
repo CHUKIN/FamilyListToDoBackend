@@ -25,8 +25,8 @@ namespace App.Controllers
         {
             var tasks = db.Tasks.Where(i => i.TaskStatus == TaskStatus.Open && (i.TaskType == TaskType.Purchases || i.TaskType == TaskType.Tasks));
             var taskTypes = new []{
-                new {id = TaskType.Purchases, text = Constants.Purchases}, 
-                new {id = TaskType.Tasks, text = Constants.Tasks}
+                new {id = TaskType.Purchases, text = Constants.Purchase}, 
+                new {id = TaskType.Tasks, text = Constants.Task}
             };
             return Json(new
             {

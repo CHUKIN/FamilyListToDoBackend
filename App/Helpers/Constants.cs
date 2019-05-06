@@ -2,7 +2,7 @@ namespace App.Helpers
 {
     public static class Constants
     {
-        public static string Purchases = "Покупки";
-        public static string Tasks = "Задачи";
+        public static string Purchase = "Покупка";
+        public static string Task = "Задача";
     }
 }
